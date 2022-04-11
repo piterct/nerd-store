@@ -56,6 +56,11 @@ namespace NerdStore.Catalogo.Domain
         {
             return QuantidadeEstoque >= quantidade;
         }
+
+        public void Validar()
+        {
+
+        }
     }
 
 }
