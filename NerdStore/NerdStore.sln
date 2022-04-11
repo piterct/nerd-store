@@ -19,7 +19,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pagamentos", "Pagamentos", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Vendas", "Vendas", "{DD2F5553-2116-4D93-A288-F45EF9D7685F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NerdStore.Catalogo.Domain", "src\NerdStore.Catalogo.Domain\NerdStore.Catalogo.Domain.csproj", "{A2CE56D3-6F85-4350-B2D2-361FD633E688}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A2CE56D3-6F85-4350-B2D2-361FD633E688}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2CE56D3-6F85-4350-B2D2-361FD633E688}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2CE56D3-6F85-4350-B2D2-361FD633E688}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2CE56D3-6F85-4350-B2D2-361FD633E688}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
@@ -30,6 +42,7 @@ Global
 		{8CE5847F-95AE-4BCB-B60C-2D6598A0AEF3} = {ABE9D065-8B72-4545-9E6A-197FD765B822}
 		{B9FABFA6-889D-4AD6-8A2F-A811E733DEAA} = {ABE9D065-8B72-4545-9E6A-197FD765B822}
 		{DD2F5553-2116-4D93-A288-F45EF9D7685F} = {ABE9D065-8B72-4545-9E6A-197FD765B822}
+		{A2CE56D3-6F85-4350-B2D2-361FD633E688} = {1F2C29D1-9690-41A4-BFF0-3599D5FCB703}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3346A015-2D9D-4DD3-A938-2FA68E6284CF}
