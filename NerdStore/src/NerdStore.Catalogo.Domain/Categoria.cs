@@ -1,6 +1,8 @@
-﻿namespace NerdStore.Catalogo.Domain
+﻿using NerdStore.Core.DomainObjects;
+
+namespace NerdStore.Catalogo.Domain
 {
-    public class Categoria
+    public class Categoria: Entity
     {
     }
 }
