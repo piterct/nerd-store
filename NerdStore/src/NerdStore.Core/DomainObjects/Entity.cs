@@ -37,5 +37,10 @@ namespace NerdStore.Core.DomainObjects
         {
             return !(a == b);
         }
+
+        public override int GetHashCode()
+        {
+            return (GetType().GetHashCode() * 907) + Id.GetHashCode();
+        }
     }
 }
