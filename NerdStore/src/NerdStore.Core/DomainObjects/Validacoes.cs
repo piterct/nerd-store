@@ -9,5 +9,13 @@
                 throw new DomainException(mensagem);
             }
         }
+
+        public static void ValidarSeDiferente(object object1, object object2, string mensagem)
+        {
+            if (object1.Equals(object2))
+            {
+                throw new DomainException(mensagem);
+            }
+        }
     }
 }
