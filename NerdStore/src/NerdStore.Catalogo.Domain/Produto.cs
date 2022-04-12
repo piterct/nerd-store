@@ -17,6 +17,7 @@ namespace NerdStore.Catalogo.Domain
 
         public Produto(string nome, string descricao, bool ativo, decimal valor, Guid categoriaId, DateTime dataCadastro, string imagem)
         {
+
             CategoriaId = categoriaId;
             Nome = nome;
             Descricao = descricao;
