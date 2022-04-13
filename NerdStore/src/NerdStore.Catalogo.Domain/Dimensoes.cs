@@ -18,5 +18,15 @@ namespace NerdStore.Catalogo.Domain
             Largura = largura;
             Profundidade = profundidade;
         }
+
+        public string DescricaoFormatada()
+        {
+            return $"LxAxP: {Largura} x {Altura} x {Profundidade}";
+        }
+
+        public override string ToString()
+        {
+            return DescricaoFormatada();
+        }
     }
 }
