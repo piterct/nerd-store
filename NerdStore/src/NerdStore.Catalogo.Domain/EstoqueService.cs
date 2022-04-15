@@ -41,7 +41,7 @@ namespace NerdStore.Catalogo.Domain
 
         public void Dispose()
         {
-
+            _produtoRepository.Dispose();
         }
     }
 }
