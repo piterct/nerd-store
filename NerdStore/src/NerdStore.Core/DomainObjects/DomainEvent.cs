@@ -1,6 +1,13 @@
-﻿namespace NerdStore.Core.DomainObjects
+﻿using NerdStore.Core.Messages;
+using System;
+
+namespace NerdStore.Core.DomainObjects
 {
-    public class DomainEvent
+    public class DomainEvent : Event
     {
+        public DomainEvent(Guid aggregateId)
+        {
+            AggregateId = aggregateId;
+        }
     }
 }
