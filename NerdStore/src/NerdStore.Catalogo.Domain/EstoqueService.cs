@@ -22,6 +22,12 @@ namespace NerdStore.Catalogo.Domain
 
             produto.DebitarEstoque(quantidade);
 
+            // TODO Parametrizar a quantidade de estoque baixo
+            if(produto.QuantidadeEstoque < 10)
+            {
+                // avisa, mandar email, abrir chamado, realizar nova compra
+            }
+
             _produtoRepository.Atualizar(produto);
 
             return await _produtoRepository.UnitOfWork.Commit();
