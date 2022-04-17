@@ -2,7 +2,7 @@
 using NerdStore.Core.Messages;
 using System.Threading.Tasks;
 
-namespace NerdStore.Core
+namespace NerdStore.Core.Bus
 {
     public class MediatrHandler : IMediatrHandler
     {
