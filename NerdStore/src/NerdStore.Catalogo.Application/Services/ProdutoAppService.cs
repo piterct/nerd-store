@@ -1,5 +1,7 @@
-﻿using NerdStore.Catalogo.Application.ViewModels;
+﻿using AutoMapper;
+using NerdStore.Catalogo.Application.ViewModels;
 using NerdStore.Catalogo.Domain;
+using NerdStore.Core.DomainObjects;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,10 +11,16 @@ namespace NerdStore.Catalogo.Application.Services
     public class ProdutoAppService : IProdutoAppService
     {
         private readonly IProdutoRepository _produtoRepository;
+        private readonly IEstoqueService _estoqueService;
+        private readonly IMapper _mapper;
 
-        public ProdutoAppService(IProdutoRepository produtoRepository)
+        public ProdutoAppService(IProdutoRepository produtoRepository,
+                                IEstoqueService estoqueService, 
+                                IMapper mapper)
         {
             _produtoRepository = produtoRepository;
+            _estoqueService = estoqueService;
+            _mapper = mapper;
         }
         public async Task<IEnumerable<ProdutoViewModel>> ObterPorCategoria(int codigo)
         {
