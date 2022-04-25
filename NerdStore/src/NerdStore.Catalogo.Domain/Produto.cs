@@ -16,6 +16,8 @@ namespace NerdStore.Catalogo.Domain
         public Dimensoes Dimensoes { get; private set; }
         public Categoria Categoria { get; set; }
 
+        protected Produto() { }
+
         public Produto(string nome, string descricao, bool ativo, decimal valor, Guid categoriaId, DateTime dataCadastro, string imagem, Dimensoes dimensoes)
         {
 
@@ -30,7 +32,7 @@ namespace NerdStore.Catalogo.Domain
 
             Validar();
         }
-
+      
         public void Ativar() => Ativo = true;
 
         public void Desativar() => Ativo = false;
