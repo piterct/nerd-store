@@ -40,6 +40,28 @@ namespace NerdStore.WebApp.MVC.Controllers.Admin
         }
 
         [HttpGet]
+        [Route("editar-produto")]
+        public async Task<IActionResult> AtualizarProduto(Guid id)
+        {
+            return View(await PopularCategorias(await _produtoAppService.ObterPorId(id)));
+        }
+
+        [HttpPost]
+        [Route("editar-produto")]
+        public async Task<IActionResult> AtualizarProduto(Guid id, ProdutoViewModel produtoViewModel)
+        {
+            var produto = await _produtoAppService.ObterPorId(id);
+            produtoViewModel.QuantidadeEstoque = produto.QuantidadeEstoque;
+
+            ModelState.Remove("QuantidadeEstoque");
+            if (!ModelState.IsValid) return View(await PopularCategorias(produtoViewModel));
+
+            await _produtoAppService.AtualizarProduto(produtoViewModel);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
         [Route("produtos-atualizar-estoque")]
         public async Task<IActionResult> AtualizarEstoque(Guid id)
         {
