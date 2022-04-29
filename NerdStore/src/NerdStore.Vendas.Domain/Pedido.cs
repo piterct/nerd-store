@@ -102,5 +102,73 @@ namespace NerdStore.Vendas.Domain
 
             CalcularValorPedido();
         }
+
+        public void RemoverItem(PedidoItem item)
+        {
+            if (!item.EhValido()) return;
+
+            var itemExistente = PedidoItems.FirstOrDefault(p => p.ProdutoId == item.ProdutoId);
+
+            if (itemExistente == null) throw new DomainException("O item não pertence ao pedido");
+            _pedidoItems.Remove(itemExistente);
+
+            CalcularValorPedido();
+        }
+
+        public void AtualizarItem(PedidoItem item)
+        {
+            if (!item.EhValido()) return;
+            item.AssociarPedido(Id);
+
+            var itemExistente = PedidoItems.FirstOrDefault(p => p.ProdutoId == item.ProdutoId);
+
+            if (itemExistente == null) throw new DomainException("O item não pertence ao pedido");
+
+            _pedidoItems.Remove(itemExistente);
+            _pedidoItems.Add(item);
+
+            CalcularValorPedido();
+        }
+
+        public void AtualizarUnidades(PedidoItem item, int unidades)
+        {
+            item.AtualizarUnidades(unidades);
+            AtualizarItem(item);
+        }
+
+
+        public void TornarRascunho()
+        {
+            PedidoStatus = PedidoStatus.Rascunho;
+        }
+
+        public void IniciarPedido()
+        {
+            PedidoStatus = PedidoStatus.Iniciado;
+        }
+
+        public void FinalizarPedido()
+        {
+            PedidoStatus = PedidoStatus.Pago;
+        }
+
+        public void CancelarPedido()
+        {
+            PedidoStatus = PedidoStatus.Cancelado;
+        }
+
+        public static class PedidoFactory
+        {
+            public static Pedido NovoPedidoRascunho(Guid clienteId)
+            {
+                var pedido = new Pedido
+                {
+                    ClienteId = clienteId,
+                };
+
+                pedido.TornarRascunho();
+                return pedido;
+            }
+        }
     }
 }
