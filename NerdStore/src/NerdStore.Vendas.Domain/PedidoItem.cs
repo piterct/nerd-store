@@ -5,6 +5,8 @@ namespace NerdStore.Vendas.Domain
 {
     public class PedidoItem : Entity
     {
+   
+
         public Guid PedidoId { get; private set; }
         public Guid ProdutoId { get; private set; }
         public string ProdutoNome { get; private set; }
@@ -13,5 +15,37 @@ namespace NerdStore.Vendas.Domain
 
         // EF Rel.
         public Pedido Pedido { get; set; }
+
+        public PedidoItem(Guid pedidoId, Guid produtoId, string produtoNome, int quantidade, decimal valorUnitario)
+        {
+            PedidoId = pedidoId;
+            ProdutoId = produtoId;
+            ProdutoNome = produtoNome;
+            Quantidade = quantidade;
+            ValorUnitario = valorUnitario;
+        }
+
+        protected PedidoItem() {}
+
+
+        internal void AssociarPedido(Guid pedidoId)
+        {
+            PedidoId = pedidoId;
+        }
+
+        public decimal CalcularValor()
+        {
+            return Quantidade * ValorUnitario;
+        }
+
+        internal void AdicionarUnidades(int unidades)
+        {
+            Quantidade += unidades;
+        }
+
+        internal void AtualizarUnidades(int unidades)
+        {
+            Quantidade = unidades;
+        }
     }
 }
