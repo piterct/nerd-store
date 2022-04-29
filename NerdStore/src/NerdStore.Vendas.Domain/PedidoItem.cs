@@ -5,7 +5,7 @@ namespace NerdStore.Vendas.Domain
 {
     public class PedidoItem : Entity
     {
-   
+
 
         public Guid PedidoId { get; private set; }
         public Guid ProdutoId { get; private set; }
@@ -25,7 +25,7 @@ namespace NerdStore.Vendas.Domain
             ValorUnitario = valorUnitario;
         }
 
-        protected PedidoItem() {}
+        protected PedidoItem() { }
 
 
         internal void AssociarPedido(Guid pedidoId)
@@ -46,6 +46,10 @@ namespace NerdStore.Vendas.Domain
         internal void AtualizarUnidades(int unidades)
         {
             Quantidade = unidades;
+        }
+        public override bool EhValido()
+        {
+            return true;
         }
     }
 }
