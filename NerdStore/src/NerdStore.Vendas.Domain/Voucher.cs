@@ -1,5 +1,6 @@
 ﻿using NerdStore.Core.DomainObjects;
 using System;
+using System.Collections.Generic;
 
 namespace NerdStore.Vendas.Domain
 {
@@ -16,5 +17,8 @@ namespace NerdStore.Vendas.Domain
         public DateTime DataValidade { get; private set; }
         public bool Ativo { get; private set; }
         public bool Utilizado { get; private set; }
+
+        // EF Rel.
+        public ICollection<Pedido> Pedidos { get; set; }
     }
 }
