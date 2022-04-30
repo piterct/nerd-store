@@ -2,6 +2,7 @@
 using NerdStore.Core.Bus;
 using NerdStore.Core.Data;
 using NerdStore.Core.Messages;
+using NerdStore.Vendas.Domain;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,11 +13,17 @@ namespace NerdStore.Vendas.Data
     {
         private readonly IMediatorHandler _mediatorHandler;
 
-        public VendasContext(DbContextOptions<VendasContext> options, IMediatorHandler mediatorHandler)
+        public VendasContext(DbContextOptions<VendasContext> options,
+            IMediatorHandler mediatorHandler)
             : base(options)
         {
             _mediatorHandler = mediatorHandler;
         }
+
+        public DbSet<Pedido> Pedidos { get; set; }
+        public DbSet<PedidoItem> PedidoItems { get; set; }
+        public DbSet<Voucher> Vouchers { get; set; }
+
         public async Task<bool> Commit()
         {
             foreach (var entry in ChangeTracker.Entries().Where(entry => entry.Entity.GetType().GetProperty("DataCadastro") != null))
@@ -52,6 +59,7 @@ namespace NerdStore.Vendas.Data
 
             modelBuilder.HasSequence<int>("MinhaSequencia").StartsAt(1000).IncrementsBy(1);
             base.OnModelCreating(modelBuilder);
+
         }
     }
 }
