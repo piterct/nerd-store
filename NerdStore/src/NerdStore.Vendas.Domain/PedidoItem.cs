@@ -16,9 +16,8 @@ namespace NerdStore.Vendas.Domain
         // EF Rel.
         public Pedido Pedido { get; set; }
 
-        public PedidoItem(Guid pedidoId, Guid produtoId, string produtoNome, int quantidade, decimal valorUnitario)
+        public PedidoItem(Guid produtoId, string produtoNome, int quantidade, decimal valorUnitario)
         {
-            PedidoId = pedidoId;
             ProdutoId = produtoId;
             ProdutoNome = produtoNome;
             Quantidade = quantidade;
