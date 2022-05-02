@@ -10,7 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Messages\CommonMessages\Notifications\" />
     <Folder Include="Messages\CommonMessages\IntegrationEvents\" />
   </ItemGroup>
 
