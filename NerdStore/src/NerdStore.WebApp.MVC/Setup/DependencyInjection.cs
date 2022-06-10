@@ -42,6 +42,8 @@ namespace NerdStore.WebApp.MVC.Setup
 
             // Notifications
             services.AddScoped<INotificationHandler<PedidoRascunhoIniciadoEvent>, PedidoEventHandler>();
+            services.AddScoped<INotificationHandler<PedidoAtualizadoEvent>, PedidoEventHandler>();
+            services.AddScoped<INotificationHandler<PedidoItemAdicionadoEvent>, PedidoEventHandler>();
 
 
 
