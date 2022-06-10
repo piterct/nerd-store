@@ -51,6 +51,7 @@ namespace NerdStore.Vendas.Application.Commands
                     _pedidoRepository.AdicionarItem(pedidoItem);
                 }
 
+                pedido.AdicionarEvento(new PedidoAtualizadoEvent(pedido.ClienteId, pedido.Id, pedido.ValorTotal));
             }
 
             return await _pedidoRepository.UnitOfWork.Commit();
