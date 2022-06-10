@@ -5,7 +5,7 @@ namespace NerdStore.Vendas.Application.Events
 {
     public class PedidoItemAdicionadoEvent: Event
     {
-        public PedidoItemAdicionadoEvent(Guid clienteId, Guid pedidoId, Guid produtoId, decimal valorUnitario, int quantidade)
+        public PedidoItemAdicionadoEvent(Guid clienteId, Guid pedidoId, decimal valorUnitario, Guid produtoId,  int quantidade)
         {
             AggregateId = pedidoId;
             ClienteId = clienteId;
@@ -20,6 +20,5 @@ namespace NerdStore.Vendas.Application.Events
         public Guid ProdutoId { get; private set; }
         public decimal ValorUnitario { get; private set; }
         public int Quantidade { get; private set; }
-
     }
 }
