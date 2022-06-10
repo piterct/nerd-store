@@ -13,7 +13,7 @@ namespace NerdStore.WebApp.MVC.Controllers
         private readonly DomainNotificationHandler _notifications;
         private readonly IMediatorHandler _mediatorHandler;
 
-        protected Guid ClienteId = Guid.Parse("4885e451-b0e4-4490-b959-04fabc806d32");
+        protected Guid ClienteId = Guid.Parse("04A00A43-8FC6-4F12-A0DA-0AD4836F3AE6");
 
         protected ControllerBase(INotificationHandler<DomainNotification> notifications,
                                  IMediatorHandler mediatorHandler)
