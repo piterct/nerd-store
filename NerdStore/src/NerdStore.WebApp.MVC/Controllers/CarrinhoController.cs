@@ -4,6 +4,7 @@ using NerdStore.Catalogo.Application.Services;
 using NerdStore.Core.Comunication.Mediator;
 using NerdStore.Core.Messages.CommonMessages.Notifications;
 using NerdStore.Vendas.Application.Commands;
+using NerdStore.Vendas.Application.Queries;
 using System;
 using System.Threading.Tasks;
 
@@ -12,15 +13,24 @@ namespace NerdStore.WebApp.MVC.Controllers
     public class CarrinhoController : ControllerBase
     {
         private readonly IProdutoAppService _produtoAppService;
+        private readonly IPedidoQueries _pedidoQueries;
         private readonly IMediatorHandler _mediatorHandler;
 
         public CarrinhoController(INotificationHandler<DomainNotification> notifications,
                                  IProdutoAppService produtoAppService,
+                                 IPedidoQueries pedidoQueries,
                                  IMediatorHandler mediatorHandler)
             : base(notifications, mediatorHandler)
         {
             _produtoAppService = produtoAppService;
+            _pedidoQueries = pedidoQueries;
             _mediatorHandler = mediatorHandler;
+        }
+
+        [Route("meu-carrinho")]
+        public async Task<IActionResult> Index()
+        {
+            return View(await _pedidoQueries.ObterCarrinhoCliente(ClienteId));
         }
 
         [HttpPost]
