@@ -9,7 +9,9 @@ namespace NerdStore.WebApp.MVC.Extensions
     {
         private readonly IPedidoQueries _pedidoQueries;
 
-        // TODO: Obter cliente logado
+        /// <summary>
+        /// TODO: Obter cliente logado
+        /// </summary>
         protected Guid ClienteId = Guid.Parse("04A00A43-8FC6-4F12-A0DA-0AD4836F3AE6");
 
 
