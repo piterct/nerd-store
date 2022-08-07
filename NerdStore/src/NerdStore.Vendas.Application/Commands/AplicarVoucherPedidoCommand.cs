@@ -18,6 +18,12 @@ namespace NerdStore.Vendas.Application.Commands
         public Guid ClienteId { get; private set; }
         public Guid PedidoId { get; private set; }
         public string CodigoVoucher { get; private set; }
+
+        public override bool EhValido()
+        {
+            ValidationResult = new AplicarVoucherPedidoValidation().Validate(this);
+            return ValidationResult.IsValid;
+        }
     }
 
     public class AplicarVoucherPedidoValidation : AbstractValidator<AplicarVoucherPedidoCommand>
