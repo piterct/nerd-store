@@ -5,16 +5,18 @@ using System.Threading.Tasks;
 
 namespace NerdStore.Catalogo.Domain.Events
 {
-    public class ProdutoEventHandler : 
+    public class ProdutoEventHandler :
         INotificationHandler<ProdutoAbaixoEstoqueEvent>,
         INotificationHandler<PedidoIniciadoEvent>
     {
         private readonly IProdutoRepository _produtoRepository;
         private readonly IEstoqueService _estoqueService;
 
-        public ProdutoEventHandler(IProdutoRepository produtoRepository)
+        public ProdutoEventHandler(IProdutoRepository produtoRepository, 
+                                    IEstoqueService estoqueService)
         {
             _produtoRepository = produtoRepository;
+            _estoqueService = estoqueService;
         }
 
         public async Task Handle(ProdutoAbaixoEstoqueEvent mensagem, CancellationToken cancellationToken)
@@ -25,9 +27,9 @@ namespace NerdStore.Catalogo.Domain.Events
 
         }
 
-        public Task Handle(PedidoIniciadoEvent notification, CancellationToken cancellationToken)
+        public async Task Handle(PedidoIniciadoEvent message, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            var result = await _estoqueService.DebitarListaProdutosPedido(message.ProdutosPedido);
         }
     }
 }
