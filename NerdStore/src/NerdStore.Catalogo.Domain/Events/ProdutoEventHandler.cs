@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using NerdStore.Core.Messages.IntegrationEvents;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,6 +22,11 @@ namespace NerdStore.Catalogo.Domain.Events
 
             // Enviar um email para a aquicao de mais produtos.
 
+        }
+
+        public Task Handle(PedidoIniciadoEvent notification, CancellationToken cancellationToken)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
