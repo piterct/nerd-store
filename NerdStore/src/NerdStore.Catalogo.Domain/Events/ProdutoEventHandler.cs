@@ -10,6 +10,7 @@ namespace NerdStore.Catalogo.Domain.Events
         INotificationHandler<PedidoIniciadoEvent>
     {
         private readonly IProdutoRepository _produtoRepository;
+        private readonly IEstoqueService _estoqueService;
 
         public ProdutoEventHandler(IProdutoRepository produtoRepository)
         {
