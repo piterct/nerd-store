@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using NerdStore.Core.Comunication.Mediator;
 using NerdStore.Core.Messages.IntegrationEvents;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,12 +12,15 @@ namespace NerdStore.Catalogo.Domain.Events
     {
         private readonly IProdutoRepository _produtoRepository;
         private readonly IEstoqueService _estoqueService;
+        private readonly IMediatorHandler _mediatorHandler;
 
         public ProdutoEventHandler(IProdutoRepository produtoRepository, 
-                                    IEstoqueService estoqueService)
+                                    IEstoqueService estoqueService,
+                                    IMediatorHandler mediatorHandler)
         {
             _produtoRepository = produtoRepository;
             _estoqueService = estoqueService;
+            _mediatorHandler = mediatorHandler;
         }
 
         public async Task Handle(ProdutoAbaixoEstoqueEvent mensagem, CancellationToken cancellationToken)
@@ -30,6 +34,15 @@ namespace NerdStore.Catalogo.Domain.Events
         public async Task Handle(PedidoIniciadoEvent message, CancellationToken cancellationToken)
         {
             var result = await _estoqueService.DebitarListaProdutosPedido(message.ProdutosPedido);
+
+            if (result)
+            {
+                await _mediatorHandler.PublicarEvento(new PedidoEstoqueConfirmadoEvent(message.PedidoId, message.ClienteId, message.Total,message.ProdutosPedido, message.NomeCartao, message.NumeroCartao, message.ExpiracaoCartao, message.CvvCartao));
+            }
+            else
+            {
+                await _mediatorHandler.PublicarEvento(new PedidoEstoqueRejeitadoEvent(message.PedidoId, message.ClienteId));
+            }
         }
     }
 }
