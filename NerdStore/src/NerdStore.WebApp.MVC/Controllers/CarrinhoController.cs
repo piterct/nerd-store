@@ -108,5 +108,12 @@ namespace NerdStore.WebApp.MVC.Controllers
 
             return View("Index", await _pedidoQueries.ObterCarrinhoCliente(ClienteId));
         }
+
+        [Route("resumo-da-compra")]
+        public async Task<IActionResult> ResumoDaCompra()
+        {
+            return View(await _pedidoQueries.ObterCarrinhoCliente(ClienteId));
+        }
+
     }
 }
