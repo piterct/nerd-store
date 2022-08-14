@@ -1,9 +1,12 @@
 ﻿using MediatR;
 using NerdStore.Core.Comunication.Mediator;
+using NerdStore.Core.DomainObjects.DTO;
+using NerdStore.Core.Extensions;
 using NerdStore.Core.Messages;
 using NerdStore.Core.Messages.CommonMessages.Notifications;
 using NerdStore.Vendas.Application.Events;
 using NerdStore.Vendas.Domain;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -170,7 +173,9 @@ namespace NerdStore.Vendas.Application.Commands
             var pedido = await _pedidoRepository.ObterPedidoRascunhoPorClienteId(message.ClienteId);
             pedido.IniciarPedido();
 
-
+            var itensList = new List<Item>();
+            pedido.PedidoItems.ForEach(i => itensList.Add(new Item { Id = i.ProdutoId, Quantidade = i.Quantidade }));
+            var listaProdutosPedido = new ListaProdutosPedido { PedidoId = pedido.Id, Itens = itensList };
 
             _pedidoRepository.Atualizar(pedido);
             return await _pedidoRepository.UnitOfWork.Commit();
