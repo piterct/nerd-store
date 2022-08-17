@@ -1,5 +1,6 @@
 ﻿using NerdStore.Core.Comunication.Mediator;
 using NerdStore.Core.DomainObjects.DTO;
+using NerdStore.Core.Messages.CommonMessages.IntegrationEvents;
 using NerdStore.Core.Messages.CommonMessages.Notifications;
 using System.Threading.Tasks;
 
@@ -9,6 +10,16 @@ namespace NerdStore.Pagamentos.Business
     {
         private readonly IPagamentoCartaoCreditoFacade _pagamentoCartaoCreditoFacade;
         private readonly IMediatorHandler _mediatorHandler;
+        private readonly IPagamentoRepository _pagamentoRepository;
+
+        public PagamentoService(IPagamentoCartaoCreditoFacade pagamentoCartaoCreditoFacade,
+                                IMediatorHandler mediatorHandler,
+                                IPagamentoRepository pagamentoRepository)
+        {
+            _pagamentoCartaoCreditoFacade = pagamentoCartaoCreditoFacade;
+            _mediatorHandler = mediatorHandler;
+            _pagamentoRepository = pagamentoRepository;
+        }
         public async Task<Transacao> RealizarPagamentoPedido(PagamentoPedido pagamentoPedido)
         {
             var pedido = new Pedido
