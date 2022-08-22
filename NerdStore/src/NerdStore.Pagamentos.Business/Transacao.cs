@@ -1,8 +1,9 @@
-﻿using System;
+﻿using NerdStore.Core.DomainObjects;
+using System;
 
 namespace NerdStore.Pagamentos.Business
 {
-    public  class Transacao
+    public  class Transacao : Entity
     {
         public Guid PedidoId { get; set; }
         public Guid PagamentoId { get; set; }
