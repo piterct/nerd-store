@@ -9,6 +9,7 @@ namespace NerdStore.Catalogo.Domain
     {
         Task<IEnumerable<Produto>> ObterTodos();
         Task<Produto> ObterPorId(Guid id);
+        Task<Produto> ObterPorIComTracking(Guid id);
         Task<IEnumerable<Produto>> ObterPorCategoria(int codigo);
         Task<IEnumerable<Categoria>> ObterCategorias();
 
