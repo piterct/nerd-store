@@ -41,11 +41,9 @@ namespace NerdStore.Vendas.Application.Events
             return Task.CompletedTask;
         }
 
-        public Task Handle(PedidoEstoqueRejeitadoEvent notification, CancellationToken cancellationToken)
+        public async Task Handle(PedidoEstoqueRejeitadoEvent message, CancellationToken cancellationToken)
         {
-            // cancelar o processamento do pedido - retornar erro para o cliente.
-
-            return Task.CompletedTask;
+            await _mediatorHandler.EnviarComando(new CancelarProcessamentoPedidoCommand(message.PedidoId, message.ClienteId));
         }
 
         public async Task Handle(PedidoPagamentoRealizadoEvent message, CancellationToken cancellationToken)
