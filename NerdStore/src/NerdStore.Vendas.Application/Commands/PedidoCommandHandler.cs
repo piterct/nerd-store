@@ -19,7 +19,9 @@ namespace NerdStore.Vendas.Application.Commands
         IRequestHandler<AtualizarItemPedidoCommand, bool>,
         IRequestHandler<RemoverItemPedidoCommand, bool>,
         IRequestHandler<AplicarVoucherPedidoCommand, bool>,
-        IRequestHandler<IniciarPedidoCommand, bool>
+        IRequestHandler<IniciarPedidoCommand, bool>,
+        IRequestHandler<FinalizarPedidoCommand, bool>,
+        IRequestHandler<CancelarProcessamentoPedidoEstornarEstoqueCommand, bool>
 
     {
         private readonly IPedidoRepository _pedidoRepository;
@@ -182,6 +184,27 @@ namespace NerdStore.Vendas.Application.Commands
 
             _pedidoRepository.Atualizar(pedido);
             return await _pedidoRepository.UnitOfWork.Commit();
+        }
+
+        public async Task<bool> Handle(FinalizarPedidoCommand message, CancellationToken cancellationToken)
+        {
+            var pedido = await _pedidoRepository.ObterPorId(message.PedidoId);
+
+            if (pedido == null)
+            {
+                await _mediatorHandler.PublicarNotificacao(new DomainNotification("pedido", "Pedido não encontrado!"));
+                return false;
+            }
+
+            pedido.FinalizarPedido();
+
+            pedido.AdicionarEvento(new PedidoFinalizadoEvent(message.PedidoId));
+            return await _pedidoRepository.UnitOfWork.Commit();
+        }
+
+        public async Task<bool> Handle(CancelarProcessamentoPedidoEstornarEstoqueCommand request, CancellationToken cancellationToken)
+        {
+            throw new System.NotImplementedException();
         }
 
         private bool ValidarComando(Command message)
