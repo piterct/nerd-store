@@ -1,5 +1,7 @@
 ﻿using MediatR;
+using NerdStore.Core.Comunication.Mediator;
 using NerdStore.Core.Messages.CommonMessages.IntegrationEvents;
+using NerdStore.Vendas.Application.Commands;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,13 +13,14 @@ namespace NerdStore.Vendas.Application.Events
         INotificationHandler<PedidoEstoqueConfirmadoEvent>,
         INotificationHandler<PedidoEstoqueRejeitadoEvent>,
         INotificationHandler<PedidoPagamentoRealizadoEvent>,
-        INotificationHandler<PedidoPagamentoRecusadoEvent>
+        INotificationHandler<PedidoPagamentoRecusadoEvent>,
+        INotificationHandler<PedidoFinalizadoEvent>
     {
-        private readonly IMediator _mediatorHandler;
+        private readonly IMediatorHandler _mediatorHandler;
 
-        public PedidoEventHandler(IMediator mediator)
+        public PedidoEventHandler(IMediatorHandler mediatorHandler)
         {
-            _mediatorHandler = mediator;
+            _mediatorHandler = mediatorHandler;
         }
         public Task Handle(PedidoRascunhoIniciadoEvent notification, CancellationToken cancellationToken)
         {
@@ -45,12 +48,17 @@ namespace NerdStore.Vendas.Application.Events
             return Task.CompletedTask;
         }
 
-        public Task Handle(PedidoPagamentoRealizadoEvent notification, CancellationToken cancellationToken)
+        public async Task Handle(PedidoPagamentoRealizadoEvent message, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            await _mediatorHandler.EnviarComando(new FinalizarPedidoCommand(message.PedidoId, message.ClienteId));
         }
 
-        public Task Handle(PedidoPagamentoRecusadoEvent notification, CancellationToken cancellationToken)
+        public async Task Handle(PedidoPagamentoRecusadoEvent message, CancellationToken cancellationToken)
+        {
+            await _mediatorHandler.EnviarComando(new CancelarProcessamentoPedidoEstornarEstoqueCommand(message.PedidoId, message.ClienteId));
+        }
+
+        public async Task Handle(PedidoFinalizadoEvent notification, CancellationToken cancellationToken)
         {
             throw new System.NotImplementedException();
         }
