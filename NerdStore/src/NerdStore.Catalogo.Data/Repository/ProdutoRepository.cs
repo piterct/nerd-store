@@ -29,6 +29,11 @@ namespace NerdStore.Catalogo.Data.Repository
             return await _context.Produtos.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
         }
 
+        public async Task<Produto> ObterPorIComTracking(Guid id)
+        {
+            return await _context.Produtos.FirstOrDefaultAsync(p => p.Id == id);
+        }
+
         public async Task<IEnumerable<Produto>> ObterPorCategoria(int codigo)
         {
             return await _context.Produtos.AsNoTracking().Include(p => p.Categoria).Where(c => c.Categoria.Codigo == codigo).ToListAsync();
