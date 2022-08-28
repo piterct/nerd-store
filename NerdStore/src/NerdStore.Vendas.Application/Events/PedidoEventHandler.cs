@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using NerdStore.Core.Messages.IntegrationEvents;
+using NerdStore.Core.Messages.CommonMessages.IntegrationEvents;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,8 +9,16 @@ namespace NerdStore.Vendas.Application.Events
         INotificationHandler<PedidoAtualizadoEvent>,
         INotificationHandler<PedidoItemAdicionadoEvent>,
         INotificationHandler<PedidoEstoqueConfirmadoEvent>,
-        INotificationHandler<PedidoEstoqueRejeitadoEvent>
+        INotificationHandler<PedidoEstoqueRejeitadoEvent>,
+        INotificationHandler<PedidoPagamentoRealizadoEvent>,
+        INotificationHandler<PedidoPagamentoRecusadoEvent>
     {
+        private readonly IMediator _mediatorHandler;
+
+        public PedidoEventHandler(IMediator mediator)
+        {
+            _mediatorHandler = mediator;
+        }
         public Task Handle(PedidoRascunhoIniciadoEvent notification, CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
@@ -35,6 +43,16 @@ namespace NerdStore.Vendas.Application.Events
             // cancelar o processamento do pedido - retornar erro para o cliente.
 
             return Task.CompletedTask;
+        }
+
+        public Task Handle(PedidoPagamentoRealizadoEvent notification, CancellationToken cancellationToken)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task Handle(PedidoPagamentoRecusadoEvent notification, CancellationToken cancellationToken)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
