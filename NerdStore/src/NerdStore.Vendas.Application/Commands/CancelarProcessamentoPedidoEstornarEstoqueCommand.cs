@@ -1,8 +1,9 @@
-﻿using System;
+﻿using NerdStore.Core.Messages;
+using System;
 
 namespace NerdStore.Vendas.Application.Commands
 {
-    public class CancelarProcessamentoPedidoEstornarEstoqueCommand
+    public class CancelarProcessamentoPedidoEstornarEstoqueCommand : Command
     {
         public CancelarProcessamentoPedidoEstornarEstoqueCommand(Guid pedidoId, Guid clienteId)
         {
