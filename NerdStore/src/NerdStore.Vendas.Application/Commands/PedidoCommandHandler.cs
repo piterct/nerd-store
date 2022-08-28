@@ -202,9 +202,24 @@ namespace NerdStore.Vendas.Application.Commands
             return await _pedidoRepository.UnitOfWork.Commit();
         }
 
-        public async Task<bool> Handle(CancelarProcessamentoPedidoEstornarEstoqueCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(CancelarProcessamentoPedidoEstornarEstoqueCommand message, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            var pedido = await _pedidoRepository.ObterPorId(message.PedidoId);
+
+            if (pedido == null)
+            {
+                await _mediatorHandler.PublicarNotificacao(new DomainNotification("pedido", "Pedido não encontrado!"));
+                return false;
+            }
+
+            var itensList = new List<Item>();
+            pedido.PedidoItems.ForEach(i => itensList.Add(new Item { Id = i.ProdutoId, Quantidade = i.Quantidade }));
+            var listaProdutosPedido = new ListaProdutosPedido { PedidoId = pedido.Id, Itens = itensList };
+
+            pedido.AdicionarEvento(new PedidoProcessamentoCanceladoEvent(pedido.Id, pedido.ClienteId, listaProdutosPedido));
+            pedido.TornarRascunho();
+
+            return await _pedidoRepository.UnitOfWork.Commit();
         }
 
         private bool ValidarComando(Command message)
