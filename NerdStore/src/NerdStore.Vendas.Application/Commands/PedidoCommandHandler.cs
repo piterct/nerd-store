@@ -21,7 +21,8 @@ namespace NerdStore.Vendas.Application.Commands
         IRequestHandler<AplicarVoucherPedidoCommand, bool>,
         IRequestHandler<IniciarPedidoCommand, bool>,
         IRequestHandler<FinalizarPedidoCommand, bool>,
-        IRequestHandler<CancelarProcessamentoPedidoEstornarEstoqueCommand, bool>
+        IRequestHandler<CancelarProcessamentoPedidoEstornarEstoqueCommand, bool>,
+        IRequestHandler<CancelarProcessamentoPedidoCommand, bool>
 
     {
         private readonly IPedidoRepository _pedidoRepository;
@@ -217,6 +218,21 @@ namespace NerdStore.Vendas.Application.Commands
             var listaProdutosPedido = new ListaProdutosPedido { PedidoId = pedido.Id, Itens = itensList };
 
             pedido.AdicionarEvento(new PedidoProcessamentoCanceladoEvent(pedido.Id, pedido.ClienteId, listaProdutosPedido));
+            pedido.TornarRascunho();
+
+            return await _pedidoRepository.UnitOfWork.Commit();
+        }
+
+        public async Task<bool> Handle(CancelarProcessamentoPedidoCommand message, CancellationToken cancellationToken)
+        {
+            var pedido = await _pedidoRepository.ObterPorId(message.PedidoId);
+
+            if (pedido == null)
+            {
+                await _mediatorHandler.PublicarNotificacao(new DomainNotification("pedido", "Pedido não encontrado!"));
+                return false;
+            }
+
             pedido.TornarRascunho();
 
             return await _pedidoRepository.UnitOfWork.Commit();
