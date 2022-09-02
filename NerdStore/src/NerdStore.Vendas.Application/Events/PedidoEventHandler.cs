@@ -56,9 +56,9 @@ namespace NerdStore.Vendas.Application.Events
             await _mediatorHandler.EnviarComando(new CancelarProcessamentoPedidoEstornarEstoqueCommand(message.PedidoId, message.ClienteId));
         }
 
-        public async Task Handle(PedidoFinalizadoEvent notification, CancellationToken cancellationToken)
+        public Task Handle(PedidoFinalizadoEvent notification, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            return Task.CompletedTask;
         }
     }
 }
