@@ -81,7 +81,7 @@ namespace NerdStore.Catalogo.Domain
 
         private async Task<bool> ReporItemEstoque(Guid produtoId, int quantidade)
         {
-            var produto = await _produtoRepository.ObterPorId(produtoId);
+            var produto = await _produtoRepository.ObterPorIComTracking(produtoId);
 
             if (produto == null) return false;
             produto.ReporEstoque(quantidade);
