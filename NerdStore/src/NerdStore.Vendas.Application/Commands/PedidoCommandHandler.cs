@@ -63,7 +63,6 @@ namespace NerdStore.Vendas.Application.Commands
                     _pedidoRepository.AdicionarItem(pedidoItem);
                 }
 
-                pedido.AdicionarEvento(new PedidoAtualizadoEvent(pedido.ClienteId, pedido.Id, pedido.ValorTotal));
             }
             pedido.AdicionarEvento(new PedidoItemAdicionadoEvent(pedido.ClienteId, pedido.Id, message.ValorUnitario, message.ProdutoId, message.Nome, message.Quantidade));
             return await _pedidoRepository.UnitOfWork.Commit();
@@ -91,7 +90,6 @@ namespace NerdStore.Vendas.Application.Commands
 
             pedido.AtualizarUnidades(pedidoItem, message.Quantidade);
 
-            pedido.AdicionarEvento(new PedidoAtualizadoEvent(message.ClienteId, pedido.Id,  pedido.ValorTotal));
             pedido.AdicionarEvento(new PedidoProdutoAtualizadoEvent(message.ClienteId, pedido.Id, message.ProdutoId, message.Quantidade));
 
             _pedidoRepository.AtualizarItem(pedidoItem);
@@ -121,8 +119,6 @@ namespace NerdStore.Vendas.Application.Commands
             }
 
             pedido.RemoverItem(pedidoItem);
-
-            pedido.AdicionarEvento(new PedidoAtualizadoEvent(message.ClienteId, pedido.Id, pedido.ValorTotal));
             pedido.AdicionarEvento(new PedidoProdutoRemovidoEvent(message.ClienteId, pedido.Id, message.ProdutoId));
 
             _pedidoRepository.RemoverItem(pedidoItem);
@@ -162,7 +158,6 @@ namespace NerdStore.Vendas.Application.Commands
                 return false;
             }
 
-            pedido.AdicionarEvento(new PedidoAtualizadoEvent(message.ClienteId, pedido.Id, pedido.ValorTotal));
             pedido.AdicionarEvento(new VoucherAplicadoPedidoEvent(message.ClienteId, pedido.Id, voucher.Id));
 
             _pedidoRepository.Atualizar(pedido);
