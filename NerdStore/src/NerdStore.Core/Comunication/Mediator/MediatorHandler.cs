@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using NerdStore.Core.Data.EventSourcing;
 using NerdStore.Core.Messages;
 using NerdStore.Core.Messages.CommonMessages.Notifications;
 using System.Threading.Tasks;
@@ -8,10 +9,13 @@ namespace NerdStore.Core.Comunication.Mediator
     public class MediatorHandler : IMediatorHandler
     {
         private readonly IMediator _mediator;
+        private readonly IEventSourcingRepository _eventSourcingRepository;
 
-        public MediatorHandler(IMediator mediator)
+        public MediatorHandler(IMediator mediator,
+                                IEventSourcingRepository eventSourcingRepository)
         {
             _mediator = mediator;
+            _eventSourcingRepository = eventSourcingRepository;
         }
 
         public async Task<bool> EnviarComando<T>(T commando) where T : Command
