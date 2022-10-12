@@ -1,7 +1,10 @@
-﻿using NerdStore.Core.Data.EventSourcing;
+﻿using EventStore.ClientAPI;
+using NerdStore.Core.Data.EventSourcing;
 using NerdStore.Core.Messages;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace EventSourcing
@@ -14,15 +17,25 @@ namespace EventSourcing
         {
             _eventStoreService = eventStoreService;
         }
-        public Task SalvarEvento<TEvent>(TEvent evento) where TEvent : Event
+        public async Task SalvarEvento<TEvent>(TEvent evento) where TEvent : Event
         {
-            throw new NotImplementedException();
+            await _eventStoreService.GetConnection().AppendToStreamAsync(evento.AggregateId.ToString(),
+                ExpectedVersion.Any,
+                )
         }
         public Task<IEnumerable<StoredEvent>> ObterEventos(Guid aggregateId)
         {
             throw new NotImplementedException();
         }
 
-       
+        private static IEnumerable<EventData> FormatarEvento<TEvent>(TEvent evento) where TEvent : Event
+        {
+            yield return new EventData(
+                Guid.NewGuid(),
+                evento.MessageType,
+                true,
+                Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(evento)),
+                null);
+        }
     }
 }
