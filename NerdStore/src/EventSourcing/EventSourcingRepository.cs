@@ -4,6 +4,7 @@ using NerdStore.Core.Messages;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,11 +22,31 @@ namespace EventSourcing
         {
             await _eventStoreService.GetConnection().AppendToStreamAsync(evento.AggregateId.ToString(),
                 ExpectedVersion.Any,
-                )
+                FormatarEvento(evento));
         }
-        public Task<IEnumerable<StoredEvent>> ObterEventos(Guid aggregateId)
+        public async Task<IEnumerable<StoredEvent>> ObterEventos(Guid aggregateId)
         {
-            throw new NotImplementedException();
+            var eventos = await _eventStoreService.GetConnection()
+               .ReadStreamEventsForwardAsync(aggregateId.ToString(), 0, 500, false);
+
+            var listaEventos = new List<StoredEvent>();
+
+            foreach (var resolvedEvent in eventos.Events)
+            {
+                var dataEncoded = Encoding.UTF8.GetString(resolvedEvent.Event.Data);
+                var jsonData = JsonConvert.DeserializeObject<BaseEvent>(dataEncoded);
+
+                var evento = new StoredEvent(
+                    resolvedEvent.Event.EventId,
+                    resolvedEvent.Event.EventType,
+                    jsonData.Timestamp,
+                    dataEncoded);
+
+                listaEventos.Add(evento);
+            }
+
+            return listaEventos.OrderBy(e => e.DataOcorrencia);
+
         }
 
         private static IEnumerable<EventData> FormatarEvento<TEvent>(TEvent evento) where TEvent : Event
